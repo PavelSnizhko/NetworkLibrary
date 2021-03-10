@@ -46,9 +46,9 @@ final class NetworkFacadeTests: XCTestCase {
         let jsonData = try? jsonEncoder.encode(post)
 
         let requestDataWithBody = RequestMetaData(endpoint: "https://jsonplaceholder.typicode.com/post/1", method: .get, body: jsonData, headers: nil)
-        
+
         let resourceWithBody = Resource<Post>(requestMetaData: requestDataWithBody, decodingType: Post.self)
-        
+
         networkFacade.execute(resource: resourceWithBody) { result in
             switch result {
             case .success:

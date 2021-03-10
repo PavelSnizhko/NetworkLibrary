@@ -18,8 +18,8 @@ public class NetworkFacade {
         
         switch resultOfParsing {
         case .success(let requst):
-            //todo weak self
-            networkHelper.perfomRequest(request: requst, validation: self.validation) { result in
+            networkHelper.perfomRequest(request: requst, validation: self.validation) { [weak self] result in
+                guard let self = self else { return }
                 switch result {
                 case .success(let data):
                                         
