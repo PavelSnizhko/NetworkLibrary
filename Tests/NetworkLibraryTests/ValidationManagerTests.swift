@@ -29,7 +29,13 @@ final class ValidationManagerTests: XCTestCase {
         do {
             try validationManager.setRanges(successRange: 0..<300, failureRange: 300..<600)
         } catch let error {
-            XCTAssertEqual(error as! NetworkError, NetworkError.impossibleRange)
+            
+            guard let error = error as? NetworkError else {
+                XCTFail("it mustn't be")
+                return
+            }
+            
+            XCTAssertEqual(error, NetworkError.impossibleRange)
         }
     }
     
