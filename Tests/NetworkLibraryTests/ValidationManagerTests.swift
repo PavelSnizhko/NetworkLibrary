@@ -8,7 +8,7 @@
 import XCTest
 @testable import NetworkLibrary
 
-final class ValidationManagerTests: XCTest {
+final class ValidationManagerTests: XCTestCase {
     var validationManager = ValidationManager()
     
     func testSettingNewRanges() {
@@ -24,6 +24,13 @@ final class ValidationManagerTests: XCTest {
         
         XCTAssertNotEqual(successRange, validationManager.successRange)
         XCTAssertNotEqual(failureRange, validationManager.failureRange)
+        
+        
+        do {
+            try validationManager.setRanges(successRange: 0..<300, failureRange: 300..<600)
+        } catch let error {
+            XCTAssertEqual(error as! NetworkError, NetworkError.impossibleRange)
+        }
     }
     
 }
