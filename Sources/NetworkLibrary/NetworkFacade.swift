@@ -34,9 +34,9 @@ public class NetworkFacade {
         }
     }
     
-    public func execute(resource: RequestMetaData, complition: @escaping ((Result<Data, NetworkError>) -> Void)) {
+    public func execute(requestData: RequestMetaData, complition: @escaping ((Result<Data, NetworkError>) -> Void)) {
        
-        let resultOfParsing = resourseParser.parse(from: resource, using: httpHeaderManager)
+        let resultOfParsing = resourseParser.parse(from: requestData, using: httpHeaderManager)
         
         switch resultOfParsing {
         case .success(let requst):

@@ -30,7 +30,7 @@ struct ResourceParser {
             urlRequest.httpBody = body
             
             guard requestData.method != .get else {
-                return .failure(.badRequestData)
+                return .failure(.inappropriateRequestData)
             }
         }
         

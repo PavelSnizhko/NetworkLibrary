@@ -54,7 +54,7 @@ struct NetworkHelper: Networkable {
             let result = try jsonDecoder.decode(type.self, from: data)
             return .success(result)
         } catch {
-            return .failure(.decoding(error))
+            return .failure(.decoding(error.localizedDescription))
         }
     }
     
