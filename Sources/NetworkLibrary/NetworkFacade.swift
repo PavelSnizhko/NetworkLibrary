@@ -49,7 +49,7 @@ public class NetworkFacade {
     }
     
     
-    public func setNewValidationRange(successRange: Range<Int>, failureRange: Range<Int>) {
-        self.validation.setRanges(successRange: successRange, failureRange: failureRange)
+    public func setNewValidationRange(successRange: Range<Int>, failureRange: Range<Int>) throws {
+        try self.validation.setRanges(successRange: successRange, failureRange: failureRange)
     }
 }

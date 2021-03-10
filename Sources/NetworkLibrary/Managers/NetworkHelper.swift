@@ -7,12 +7,6 @@
 
 import Foundation
 
-protocol Networkable {
-    func perfomRequest(request: URLRequest, validation: ValidationManager, complition: @escaping (Result<Data, NetworkError>) -> Void)
-}
-
-
-
 struct NetworkHelper: Networkable {
     
     let urlSession = URLSession.shared
