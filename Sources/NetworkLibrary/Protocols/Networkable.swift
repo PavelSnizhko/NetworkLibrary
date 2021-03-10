@@ -8,5 +8,7 @@
 import Foundation
 
 protocol Networkable {
-    func perfomRequest(request: URLRequest, validation: ValidationManager, complition: @escaping (Result<Data, NetworkError>) -> Void)
+    func perfomRequest(request: URLRequest,
+                       validation: ValidationManager,
+                       complition: @escaping (Result<Data, NetworkError>) -> Void)
 }

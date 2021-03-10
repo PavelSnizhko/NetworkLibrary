@@ -11,9 +11,9 @@ public struct RequestMetaData {
     let endpoint: String
     let method: HTTPMethods
     let body: Data?
-    var headers: [String : String]?
-    
-    public init(endpoint: String, method: HTTPMethods, body: Data?, headers: [String : String]?) {
+    var headers: [String: String]?
+
+    public init(endpoint: String, method: HTTPMethods, body: Data?, headers: [String: String]?) {
         self.endpoint = endpoint
         self.method = method
         self.body = body
