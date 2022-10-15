@@ -5,11 +5,21 @@ public class NetworkFacade {
     private var validation = ValidationManager()
     private var networkHelper = NetworkHelper()
     private var resourseParser = ResourceParser()
+    
+//    private var eventSource: EventSource?
+    
     var httpHeaderManager: HTTPHeaderManager
 
     public init(httpHeaderManager: HTTPHeaderManager) {
         self.httpHeaderManager = httpHeaderManager
     }
+    
+//    public func executeEventSource(with url: URL,
+//                                   headers: [String: String],
+//                                   onOpen: (() -> Void)?,
+//                                   onComlete: ((Int?, Bool?, NSError?) -> Void)?,
+//                                   onMessage: ((_ id: String?, _ event: String?, _ data: String?) -> Void)?,
+//                                   )
 
     public func execute<T: Decodable>(resource: Resource<T>,
                                       complition: @escaping ((Result<T, NetworkError>) -> Void)) {
