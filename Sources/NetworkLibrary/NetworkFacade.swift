@@ -1,64 +1,52 @@
 import Foundation
+import RxSwift
 
-public class NetworkFacade {
-
+public struct NetworkFacade {
     private var validation = ValidationManager()
     private var networkHelper = NetworkHelper()
     private var resourseParser = ResourceParser()
     
-//    private var eventSource: EventSource?
-    
     var httpHeaderManager: HTTPHeaderManager
-
-    public init(httpHeaderManager: HTTPHeaderManager) {
+    
+    public init(httpHeaderManager: HTTPHeaderManager = .init(headers: [:])) {
         self.httpHeaderManager = httpHeaderManager
     }
     
-//    public func executeEventSource(with url: URL,
-//                                   headers: [String: String],
-//                                   onOpen: (() -> Void)?,
-//                                   onComlete: ((Int?, Bool?, NSError?) -> Void)?,
-//                                   onMessage: ((_ id: String?, _ event: String?, _ data: String?) -> Void)?,
-//                                   )
-
     public func execute<T: Decodable>(resource: Resource<T>,
-                                      complition: @escaping ((Result<T, NetworkError>) -> Void)) {
-
+                                      completion: @escaping ((Result<T, NetworkError>) -> Void)) {
+        
         let resultOfParsing = resourseParser.parse(from: resource.requestMetaData, using: httpHeaderManager)
-
-        switch resultOfParsing {
-        case .success(let requst):
-            networkHelper.perfomRequest(request: requst, validation: self.validation) { [weak self] result in
-                guard let self = self else { return }
-                switch result {
-                case .success(let data):
-
-                    complition(self.networkHelper.decode(from: data, to: resource.decodingType))
-
-                case .failure(let error):
-                    complition(.failure(error))
-                }
-            }
-        case .failure(let error):
-            complition(.failure(error))
-        }
-    }
-
-    public func execute(requestData: RequestMetaData, complition: @escaping ((Result<Data, NetworkError>) -> Void)) {
-
-        let resultOfParsing = resourseParser.parse(from: requestData, using: httpHeaderManager)
-
+        
         switch resultOfParsing {
         case .success(let requst):
             networkHelper.perfomRequest(request: requst, validation: self.validation) { result in
-                complition(result)
+                switch result {
+                case .success(let data):
+                    completion(self.networkHelper.decode(from: data, to: resource.decodingType))
+                case .failure(let error):
+                    completion(.failure(error))
+                }
             }
         case .failure(let error):
-            complition(.failure(error))
+            completion(.failure(error))
         }
     }
-
-    public func setNewValidationRange(successRange: Range<Int>, failureRange: Range<Int>) throws {
+    
+    public func execute(requestData: RequestMetaData, completion: @escaping ((Result<Data, NetworkError>) -> Void)) {
+        
+        let resultOfParsing = resourseParser.parse(from: requestData, using: httpHeaderManager)
+        
+        switch resultOfParsing {
+        case .success(let requst):
+            networkHelper.perfomRequest(request: requst, validation: self.validation) { result in
+                completion(result)
+            }
+        case .failure(let error):
+            completion(.failure(error))
+        }
+    }
+    
+    public mutating func setNewValidationRange(successRange: Range<Int>, failureRange: Range<Int>) throws {
         try self.validation.setRanges(successRange: successRange, failureRange: failureRange)
     }
 }

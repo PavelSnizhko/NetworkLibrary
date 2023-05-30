@@ -11,7 +11,6 @@ public enum StatusCode {
     case success
     case failure(Int)
     case undefinedStatus(Int)
-
 }
 
 struct ValidationManager {
