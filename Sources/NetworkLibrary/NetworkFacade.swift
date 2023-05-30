@@ -12,6 +12,7 @@ public struct NetworkFacade {
         self.httpHeaderManager = httpHeaderManager
     }
     
+    /// To execute network reqeust where shuld be decoding
     public func execute<T: Decodable>(resource: Resource<T>,
                                       completion: @escaping ((Result<T, NetworkError>) -> Void)) {
         
@@ -32,6 +33,7 @@ public struct NetworkFacade {
         }
     }
     
+    /// To execute network reqeust withoud decoding
     public func execute(requestData: RequestMetaData, completion: @escaping ((Result<Data, NetworkError>) -> Void)) {
         
         let resultOfParsing = resourseParser.parse(from: requestData, using: httpHeaderManager)

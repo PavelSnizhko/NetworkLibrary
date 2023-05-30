@@ -12,11 +12,13 @@ public struct RequestMetaData {
     let method: HTTPMethods
     let body: Data?
     var headers: [String: String]?
+    let queryItems: [URLQueryItem]?
 
-    public init(endpoint: String, method: HTTPMethods, body: Data?, headers: [String: String]?) {
+    public init(endpoint: String, method: HTTPMethods, body: Data? = nil, headers: [String: String]? = nil, queryItems: [URLQueryItem]? = nil) {
         self.endpoint = endpoint
         self.method = method
         self.body = body
         self.headers = headers
+        self.queryItems = queryItems
     }
 }
